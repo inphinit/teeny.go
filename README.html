@@ -1069,7 +1069,7 @@ import (
 )
 
 func main() {
-    app := Teeny(&quot;localhost&quot;, 7000)
+    app := teeny.Serve(&quot;localhost&quot;, 7000)
 
     app.SetPublic(&quot;/home/user/Documents/&quot;)
 
@@ -1095,7 +1095,7 @@ import (
 )
 
 func main() {
-    app := Teeny(&quot;localhost&quot;, 7000)
+    app := teeny.Serve(&quot;localhost&quot;, 7000)
 
     app.SetTLS(true)
 
@@ -1117,7 +1117,7 @@ import (
 )
 
 func main() {
-    app := Teeny(&quot;localhost&quot;, 7000)
+    app := teeny.Serve(&quot;localhost&quot;, 7000)
 
     app.SetFcgi(true)
 
@@ -1129,7 +1129,7 @@ func main() {
 
 <h2 id="handling-errors">Handling errors<a class="headerlink" href="#handling-errors" title="Permanent link"></a></h2>
 <div class="codehilite"><pre>func main() {
-    app := Teeny(&quot;localhost&quot;, 7000)
+    app := teeny.Serve(&quot;localhost&quot;, 7000)
 
     ...
 
@@ -1145,7 +1145,7 @@ func main() {
 
 <p>Different handlers:</p>
 <div class="codehilite"><pre>func main() {
-    app := Teeny(&quot;localhost&quot;, 7000)
+    app := teeny.Serve(&quot;localhost&quot;, 7000)
 
     ...
 
@@ -1161,7 +1161,7 @@ func main() {
 }
 </pre></div>
 
-<h2 id="methods-for-config-teenyjs">Methods for config Teeny.js<a class="headerlink" href="#methods-for-config-teenyjs" title="Permanent link"></a></h2>
+<h2 id="methods-for-config-teenygo">Methods for config Teeny.go<a class="headerlink" href="#methods-for-config-teenygo" title="Permanent link"></a></h2>
 <table>
 <thead>
 <tr>

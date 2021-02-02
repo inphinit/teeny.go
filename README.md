@@ -18,7 +18,7 @@ import (
 )
 
 func main() {
-    app := Teeny("localhost", 7000)
+    app := teeny.Serve("localhost", 7000)
 
     app.SetPublic("/home/user/Documents/")
 
@@ -46,7 +46,7 @@ import (
 )
 
 func main() {
-    app := Teeny("localhost", 7000)
+    app := teeny.Serve("localhost", 7000)
 
     app.SetTLS(true)
 
@@ -70,7 +70,7 @@ import (
 )
 
 func main() {
-    app := Teeny("localhost", 7000)
+    app := teeny.Serve("localhost", 7000)
 
     app.SetFcgi(true)
 
@@ -84,7 +84,7 @@ func main() {
 
 ``` golang
 func main() {
-    app := Teeny("localhost", 7000)
+    app := teeny.Serve("localhost", 7000)
 
     ...
     
@@ -102,7 +102,7 @@ Different handlers:
 
 ``` golang
 func main() {
-    app := Teeny("localhost", 7000)
+    app := teeny.Serve("localhost", 7000)
 
     ...
 
