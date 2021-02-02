@@ -4,6 +4,12 @@ The main objective of this project is to be light, simple, easy to learn, to ser
 
 ## Configure your project
 
+For install use:
+
+```
+go get -u github.com/inphinit/teeny.go
+```
+
 Create a file any name with extesion `.go`
 
 For use local server use like this:
