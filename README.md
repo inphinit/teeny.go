@@ -46,6 +46,12 @@ For a simples test execution (`test.go` is a example):
 go run test.go
 ```
 
+For build execute:
+
+```
+go build
+```
+
 ## Using TLS:
 
 For use TLS in local server with certificate files
