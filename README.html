@@ -1062,7 +1062,7 @@ body .markdown-body
 <div class="codehilite"><pre>go get -u github.com/inphinit/teeny.go
 </pre></div>
 
-<p>Create a file any name with extesion <code>.go</code></p>
+<p>Create a file any name with extesion <code>.go</code>, example: <code>test.go</code></p>
 <p>For use local server use like this:</p>
 <div class="codehilite"><pre>package main
 
@@ -1089,7 +1089,12 @@ func main() {
 }
 </pre></div>
 
-<p>Using TLS:</p>
+<p>For a simples test execution (<code>test.go</code> is a example):</p>
+<div class="codehilite"><pre>go run test.go
+</pre></div>
+
+<h2 id="using-tls">Using TLS:<a class="headerlink" href="#using-tls" title="Permanent link"></a></h2>
+<p>For use TLS in local server with certificate files</p>
 <div class="codehilite"><pre>package main
 
 import (
@@ -1111,7 +1116,8 @@ func main() {
 }
 </pre></div>
 
-<p>Using Fast-CGI:</p>
+<h2 id="using-fast-cgi">Using Fast-CGI:<a class="headerlink" href="#using-fast-cgi" title="Permanent link"></a></h2>
+<p>For use Teeny.go with Apache or Ngnix, enable Fast-CGI: </p>
 <div class="codehilite"><pre>package main
 
 import (

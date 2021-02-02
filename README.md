@@ -10,7 +10,7 @@ For install use:
 go get -u github.com/inphinit/teeny.go
 ```
 
-Create a file any name with extesion `.go`
+Create a file any name with extesion `.go`, example: `test.go`
 
 For use local server use like this:
 
@@ -40,7 +40,15 @@ func main() {
 }
 ```
 
-Using TLS:
+For a simples test execution (`test.go` is a example):
+
+```
+go run test.go
+```
+
+## Using TLS:
+
+For use TLS in local server with certificate files
 
 ``` golang
 package main
@@ -64,7 +72,9 @@ func main() {
 }
 ```
 
-Using Fast-CGI:
+## Using Fast-CGI:
+
+For use Teeny.go with Apache or Ngnix, enable Fast-CGI: 
 
 ``` golang
 package main
