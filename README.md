@@ -24,7 +24,7 @@ import (
 )
 
 func main() {
-    app := teeny.Serve("localhost", 7000)
+    app := teenygo.Serve("localhost", 7000)
 
     app.SetPublic("/home/user/Documents/")
 
@@ -66,7 +66,7 @@ import (
 )
 
 func main() {
-    app := teeny.Serve("localhost", 7000)
+    app := teenygo.Serve("localhost", 7000)
 
     app.SetTLS(true)
 
@@ -92,7 +92,7 @@ import (
 )
 
 func main() {
-    app := teeny.Serve("localhost", 7000)
+    app := teenygo.Serve("localhost", 7000)
 
     app.SetFcgi(true)
 
@@ -106,7 +106,7 @@ func main() {
 
 ``` golang
 func main() {
-    app := teeny.Serve("localhost", 7000)
+    app := teenygo.Serve("localhost", 7000)
 
     ...
     
@@ -124,7 +124,7 @@ Different handlers:
 
 ``` golang
 func main() {
-    app := teeny.Serve("localhost", 7000)
+    app := teenygo.Serve("localhost", 7000)
 
     ...
 
@@ -146,7 +146,7 @@ Set absolute path
 
 ``` golang
 func main() {
-    app := teeny.Serve("localhost", 7000)
+    app := teenygo.Serve("localhost", 7000)
 
     app.SetPublic("/home/foo/bar")
 
@@ -157,7 +157,7 @@ func main() {
 
 Method | Description
 --- | ------
-`app := teeny.Serve(host string, port int)` | configure routes host and port
+`app := teenygo.Serve(host string, port int)` | configure routes host and port
 `app.SetDebug(enable bool)` | Define if debug is on (`true`) or off (`false`), by default is `false`
 `app.SetFcgi(enable bool)` | Enable Fast-CGI
 `app.SetTLS(enable bool)` | Enable TLS for server (not Fast-CGI)
