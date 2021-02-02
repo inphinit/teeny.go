@@ -1,4 +1,4 @@
-## About Teeny.go
+## About Teeny Go
 
 The main objective of this project is to be light, simple, easy to learn, to serve other projects that need a route system to use together with other libraries and mainly to explore the native resources from language and engine (Go).
 
@@ -7,7 +7,7 @@ The main objective of this project is to be light, simple, easy to learn, to ser
 For install use:
 
 ```
-go get -u github.com/inphinit/teeny.go
+go get -u github.com/inphinit/teenygo
 ```
 
 Create a file any name with extesion `.go`, example: `test.go`
@@ -20,7 +20,7 @@ package main
 import (
     "fmt"
     "net/http"
-    "github.com/inphinit/teeny.go"
+    "github.com/inphinit/teenygo"
 )
 
 func main() {
@@ -62,7 +62,7 @@ package main
 import (
     "fmt"
     "net/http"
-    "github.com/inphinit/teeny.go"
+    "github.com/inphinit/teenygo"
 )
 
 func main() {
@@ -80,7 +80,7 @@ func main() {
 
 ## Using Fast-CGI:
 
-For use Teeny.go with Apache or Ngnix, enable Fast-CGI: 
+For use teenygo with Apache or Ngnix, enable Fast-CGI: 
 
 ``` golang
 package main
@@ -88,7 +88,7 @@ package main
 import (
     "fmt"
     "net/http"
-    "github.com/inphinit/teeny.go"
+    "github.com/inphinit/teenygo"
 )
 
 func main() {
@@ -153,7 +153,7 @@ func main() {
     ...
 ```
 
-## Methods for config Teeny.go
+## Methods for config teenygo
 
 Method | Description
 --- | ------
@@ -171,7 +171,7 @@ Method | Description
 
 ## Patterns supported by param routes
 
-You can create your own patterns to use with the routes in "Teeny.go", but there are also ready-to-use patterns:
+You can create your own patterns to use with the routes in "teenygo", but there are also ready-to-use patterns:
 
 Pattern | Regex used | Description
 --- | --- | ---

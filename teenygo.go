@@ -1,4 +1,4 @@
-package teeny
+package teenygo
 
 import (
     "fmt"

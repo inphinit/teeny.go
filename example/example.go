@@ -3,12 +3,12 @@ package main
 import (
     "fmt"
     "net/http"
-    "github.com/inphinit/teeny.go"
+    "github.com/inphinit/teenygo"
 )
 
 func main() {
 
-    app := teeny.Serve("localhost", 7000)
+    app := teenygo.Serve("localhost", 7000)
 
     app.SetDebug(true)
 
