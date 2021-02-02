@@ -5,6 +5,7 @@ import (
     "net"
     "net/http"
     "net/http/fcgi"
+    "os"
     "regexp"
     "strings"
     "time"
@@ -149,7 +150,6 @@ func (e *TeenyServe) params(
                 continue
             }
 
-            // match := e.patternRE.FindStringSubmatch(path)
             path = e.scapesRE.ReplaceAllString(path, `\/`)
             path = e.patternRE.ReplaceAllString(path, "(?P<$1><$3>)")
             path = e.signsRE.ReplaceAllString(path, ".*?)")
@@ -195,9 +195,7 @@ func (e *TeenyServe) Exec() {
     if e.fcgi {
         serve, err := net.Listen("tcp", host)
 
-        if err != nil {
-            e.panic(err)
-        }
+        e.panic(err)
 
         fcgi.Serve(serve, nil)
     } else if e.tls {
@@ -224,6 +222,16 @@ func (e *TeenyServe) handler(response http.ResponseWriter, request *http.Request
         fmt.Printf("[%s] %s %s %s\n", time.Now().Format(time.RFC1123), method, path, request.Proto)
     }
 
+    if e.publicPath != "" {
+        code = e.public(response, request, path)
+
+        if code == 0 {
+            return
+        }
+    } else {
+        code = 200
+    }
+
     if methods, ok := e.routes[path]; ok {
         if callback, ok := methods[method]; ok {
             callback(response, request)
@@ -239,8 +247,29 @@ func (e *TeenyServe) handler(response http.ResponseWriter, request *http.Request
 
         if callback, ok := e.codes[code]; ok {
             callback(response, request, code)
-        } else {
-            fmt.Fprint(response, "")
         }
     }
+}
+
+func (e *TeenyServe) public(response http.ResponseWriter, request *http.Request, path string) int {
+
+    var fullpath = e.publicPath + path
+
+    fi, err := os.Lstat(fullpath)
+
+    if err != nil {
+        if os.IsPermission(err) {
+            return 403
+        } else if os.IsNotExist(err) {
+            return 200
+        }
+
+        return 500
+    } else if fi.Mode().IsDir() {
+        return 200
+    }
+
+    http.ServeFile(response, request, fullpath)
+
+    return 0
 }

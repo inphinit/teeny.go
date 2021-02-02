@@ -2,9 +2,11 @@ package main
 
 import (
     "fmt"
+    "path/filepath"
     "net/http"
+    "os"
     // "github.com/inphinit/teeny.go"
-    "../"
+    ".."
 )
 
 func main() {
@@ -15,7 +17,7 @@ func main() {
 
     app.SetPattern("example", `[A-Z]\d+`)
 
-    app.SetPublic("/home/user/Documents/")
+    app.SetPublic("C:/Users/new_g/Documents/GitHub/brcontainer/Teeny.projects/teeny.js/example/public")
 
     app.Action("GET", "/", func (response http.ResponseWriter, request *http.Request) {
         fmt.Fprintf(response, "Homepage")
