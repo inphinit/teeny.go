@@ -1233,7 +1233,7 @@ func main() {
 <tbody>
 <tr>
 <td><code>alnum</code></td>
-<td><code>[\\da-zA-Z]+</code></td>
+<td><code>[\da-zA-Z]+</code></td>
 <td>Matches routes with param using alpha-numeric in route</td>
 </tr>
 <tr>
@@ -1243,22 +1243,22 @@ func main() {
 </tr>
 <tr>
 <td><code>decimal</code></td>
-<td><code>\\d+\\.\\d+</code></td>
+<td><code>\d+\.\d+</code></td>
 <td>Matches routes with param using decimal format (like <code>1.2</code>, <code>3.5</code>, <code>100.50</code>) in route</td>
 </tr>
 <tr>
 <td><code>num</code></td>
-<td><code>\\d+</code></td>
+<td><code>\d+</code></td>
 <td>Matches routes with param using numeric format in route</td>
 </tr>
 <tr>
 <td><code>noslash</code></td>
-<td><code>[^\\/]+</code></td>
+<td><code>[^\/]+</code></td>
 <td>Matches routes with param using any character except slashs (<code>\/</code> or <code>/</code>) in route</td>
 </tr>
 <tr>
 <td><code>nospace</code></td>
-<td><code>\\S+</code></td>
+<td><code>\S+</code></td>
 <td>Matches routes with param using any character except spaces, tabs or NUL in route</td>
 </tr>
 <tr>
@@ -1268,7 +1268,7 @@ func main() {
 </tr>
 <tr>
 <td><code>version</code></td>
-<td><code>\\d+\\.\\d+(\\.\\d+(-[\\da-zA-Z]+(\\.[\\da-zA-Z]+)*(\\+[\\da-zA-Z]+(\\.[\\da-zA-Z]+)*)?)?)?</code></td>
+<td><code>\d+\.\d+(\.\d+(-[\da-zA-Z]+(\.[\da-zA-Z]+)*(\+[\da-zA-Z]+(\.[\da-zA-Z]+)*)?)?)?</code></td>
 <td>Matches routes with param using <a href="https://semver.org/"><code>semver.org</code></a> format in route</td>
 </tr>
 </tbody>

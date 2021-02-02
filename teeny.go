@@ -27,6 +27,9 @@ type TeenyServe struct {
     pRoutes     map[string]map[string]TeenyPatternCallback
     codes       map[int]TeenyStatusCallback
     patterns    map[string]string
+    patternRE   *regexp.Regexp
+    signsRE     *regexp.Regexp
+    scapesRE    *regexp.Regexp
 }
 
 func Serve(host string, port int) TeenyServe {
@@ -53,35 +56,54 @@ func Serve(host string, port int) TeenyServe {
             "uuid": `[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}`,
             "version": `\d+\.\d+(\.\d+(-[\da-zA-Z]+(\.[\da-zA-Z]+)*(\+[\da-zA-Z]+(\.[\da-zA-Z]+)*)?)?)?`,
         },
+        nil,
+        regexp.MustCompile(`\<\>\)`),
+        regexp.MustCompile(`/`),
     }
 }
 
 func (e *TeenyServe) SetDebug(enable bool) {
+
     e.debug = enable
 }
 
 func (e *TeenyServe) SetFcgi(enable bool) {
+
     e.fcgi = enable
 }
 
 func (e *TeenyServe) SetTLS(enable bool) {
+
     e.tls = enable
 }
 
 func (e *TeenyServe) SetCertificate(certFile string, keyFile string) {
+
     e.certFile = certFile
     e.keyFile = keyFile
 }
 
 func (e *TeenyServe) SetPublic(path string) {
+
     e.publicPath = path
+}
+
+func (e *TeenyServe) SetPattern(pattern string, regex string) {
+
+    e.patterns[pattern] = regex
+
+    var patternKeys []string
+
+    for key, _ := range e.patterns {
+        patternKeys = append(patternKeys, key)
+    }
+
+    e.patternRE = regexp.MustCompile(`[<](.*?)(\:(` + strings.Join(patternKeys, "|") + `)|)[>]`)
 }
 
 func (e *TeenyServe) Action(method string, path string, callback TeenyCallback) {
 
     if e.routes == nil {
-        fmt.Print("Create routes...\n")
-
         e.routes = make(map[string]map[string]TeenyCallback)
     }
 
@@ -116,29 +138,41 @@ func (e *TeenyServe) params(
     response http.ResponseWriter,
     request *http.Request,
     method string,
-    path string,
+    pathinfo string,
 ) bool {
 
-    re := regexp.MustCompile(`[<](.*?)(\:(` + "x" + `)|)[>]`)
-
-    for path, methods := range e.pRoutes { 
+    for path, methods := range e.pRoutes {
         if strings.Index(path, "<") != -1 {
-            match := re.FindStringSubmatch(path)
+            callback := methods[method]
 
-            if len(match) > 0 {
+            if callback == nil {
+                continue
+            }
+
+            // match := e.patternRE.FindStringSubmatch(path)
+            path = e.scapesRE.ReplaceAllString(path, `\/`)
+            path = e.patternRE.ReplaceAllString(path, "(?P<$1><$3>)")
+            path = e.signsRE.ReplaceAllString(path, ".*?)")
+
+            for pattern, replace := range e.patterns {
+                path = regexp.MustCompile("<" + pattern +  ">").ReplaceAllString(path, replace)
+            }
+
+            re := regexp.MustCompile("^" + path +  "$")
+            match := re.FindStringSubmatch(pathinfo)
+
+            if len(match) != 0 {
                 var params = make(map[string]string)
 
                 for index, name := range re.SubexpNames() {
                     if index > 0 {
                         params[name] = match[index]
-
-                        fmt.Printf("%v\n", methods)
                     }
                 }
 
+                callback(response, request, params)
 
-
-                continue
+                return true
             }
         }
     }
@@ -186,11 +220,6 @@ func (e *TeenyServe) handler(response http.ResponseWriter, request *http.Request
     var method = request.Method
     var code = 200
 
-    // fmt.Print("\n")
-    // fmt.Printf("handler() -> %s %s %s\n", method, path, request.Proto)
-    // fmt.Printf("handler() -> e.routes[%s]: %v\n", path, e.routes[path])
-    // fmt.Printf("handler() -> e.routes[%s][%s]: %v\n", path, method, e.routes[path][method])
-
     if e.debug {
         fmt.Printf("[%s] %s %s %s\n", time.Now().Format(time.RFC1123), method, path, request.Proto)
     }
@@ -199,15 +228,15 @@ func (e *TeenyServe) handler(response http.ResponseWriter, request *http.Request
         if callback, ok := methods[method]; ok {
             callback(response, request)
         } else {
-            response.WriteHeader(http.StatusMethodNotAllowed)
-            code = 405
+            code = http.StatusMethodNotAllowed
         }
-    } else {
-        response.WriteHeader(http.StatusNotFound)
-        code = 404
+    } else if !e.params(response, request, method, path) {
+        code = http.StatusNotFound
     }
 
     if code != 200 {
+        response.WriteHeader(code)
+
         if callback, ok := e.codes[code]; ok {
             callback(response, request, code)
         } else {

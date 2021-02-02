@@ -146,11 +146,11 @@ You can create your own patterns to use with the routes in "Teeny.go", but there
 
 Pattern | Regex used | Description
 --- | --- | ---
-`alnum` | `[\\da-zA-Z]+` | Matches routes with param using alpha-numeric in route
+`alnum` | `[\da-zA-Z]+` | Matches routes with param using alpha-numeric in route
 `alpha` | `[a-zA-Z]+` | Matches routes with param using A to Z letters in route
-`decimal` | `\\d+\\.\\d+` | Matches routes with param using decimal format (like `1.2`, `3.5`, `100.50`) in route
-`num` | `\\d+` | Matches routes with param using numeric format in route
-`noslash` | `[^\\/]+` | Matches routes with param using any character except slashs (`\/` or `/`) in route
-`nospace` | `\\S+` | Matches routes with param using any character except spaces, tabs or NUL in route
+`decimal` | `\d+\.\d+` | Matches routes with param using decimal format (like `1.2`, `3.5`, `100.50`) in route
+`num` | `\d+` | Matches routes with param using numeric format in route
+`noslash` | `[^\/]+` | Matches routes with param using any character except slashs (`\/` or `/`) in route
+`nospace` | `\S+` | Matches routes with param using any character except spaces, tabs or NUL in route
 `uuid` | `[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}` | Matches routes with param using uuid format in route
-`version` | `\\d+\\.\\d+(\\.\\d+(-[\\da-zA-Z]+(\\.[\\da-zA-Z]+)*(\\+[\\da-zA-Z]+(\\.[\\da-zA-Z]+)*)?)?)?` | Matches routes with param using [`semver.org`](https://semver.org/) format in route
+`version` | `\d+\.\d+(\.\d+(-[\da-zA-Z]+(\.[\da-zA-Z]+)*(\+[\da-zA-Z]+(\.[\da-zA-Z]+)*)?)?)?` | Matches routes with param using [`semver.org`](https://semver.org/) format in route

@@ -8,14 +8,12 @@ import (
 )
 
 func main() {
-    // re := regexp.MustCompile(`a(x*)b(y|z)c`)
-    // fmt.Printf("%q\n", re.FindStringSubmatch("-axxxbyc-"))
-    // fmt.Printf("%q\n", re.FindStringSubmatch("-abzc-"))
-    // fmt.Printf("%q\n\n", re.FindStringSubmatch("aaaa"))
 
     app := teeny.Serve("localhost", 7000)
 
     app.SetDebug(true)
+
+    app.SetPattern("example", `[A-Z]\d+`)
 
     app.SetPublic("/home/user/Documents/")
 
@@ -31,13 +29,33 @@ func main() {
         http.ServeFile(response, request, "./file.rar")
     })
 
-    app.Pattern("GET", "/test/<id:alnum>", func (response http.ResponseWriter, request *http.Request, params map[string]string) {
+    app.Pattern("GET", "/users/<id:alnum>", func (response http.ResponseWriter, request *http.Request, params map[string]string) {
         fmt.Fprint(response, "Params:\n")
 
         for key, value := range params {
             fmt.Fprintf(response, "%s = %s\n", key, value)
         }
     })
+
+    app.Pattern("GET", "/users/<id:num>/<name:alnum>", func (response http.ResponseWriter, request *http.Request, params map[string]string) {
+        fmt.Fprint(response, "Params:\n")
+
+        for key, value := range params {
+            fmt.Fprintf(response, "%s = %s\n", key, value)
+        }
+    })
+
+    // Set custom pattern basead in Regex (write using string)
+    app.SetPattern("example", "[A-Z]\\d+");
+
+    // Using custom pattern for get param in route (access http://localhost:7000/custom/A1000)
+    app.Pattern("GET", "/custom/<myexample:example>", func (response http.ResponseWriter, request *http.Request, params map[string]string) {
+        fmt.Fprint(response, "Custom Param:\n")
+
+        for key, value := range params {
+            fmt.Fprintf(response, "%s = %s\n", key, value)
+        }
+    });
 
     var codes = []int {403, 404, 405, 500}
 
