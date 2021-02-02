@@ -2,11 +2,8 @@ package main
 
 import (
     "fmt"
-    "path/filepath"
     "net/http"
-    "os"
-    // "github.com/inphinit/teeny.go"
-    ".."
+    "github.com/inphinit/teeny.go"
 )
 
 func main() {

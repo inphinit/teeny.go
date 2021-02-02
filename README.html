@@ -1165,6 +1165,16 @@ func main() {
 }
 </pre></div>
 
+<h2 id="static-files">Static files<a class="headerlink" href="#static-files" title="Permanent link"></a></h2>
+<p>Set absolute path</p>
+<div class="codehilite"><pre>func main() {
+    app := teeny.Serve(&quot;localhost&quot;, 7000)
+
+    app.SetPublic(&quot;/home/foo/bar&quot;)
+
+    ...
+</pre></div>
+
 <h2 id="methods-for-config-teenygo">Methods for config Teeny.go<a class="headerlink" href="#methods-for-config-teenygo" title="Permanent link"></a></h2>
 <table>
 <thead>
@@ -1196,7 +1206,7 @@ func main() {
 </tr>
 <tr>
 <td><code>app.SetPublic(path string)</code></td>
-<td>Define path for use static files</td>
+<td>Define <strong>absolute</strong> path for use static files</td>
 </tr>
 <tr>
 <td><code>app.Action(method string, path string, func TeenyCallback)</code></td>

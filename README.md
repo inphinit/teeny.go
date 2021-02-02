@@ -124,6 +124,19 @@ func main() {
 }
 ```
 
+## Static files
+
+Set absolute path
+
+``` golang
+func main() {
+    app := teeny.Serve("localhost", 7000)
+
+    app.SetPublic("/home/foo/bar")
+
+    ...
+```
+
 ## Methods for config Teeny.go
 
 Method | Description
@@ -133,7 +146,7 @@ Method | Description
 `app.SetFcgi(enable bool)` | Enable Fast-CGI
 `app.SetTLS(enable bool)` | Enable TLS for server (not Fast-CGI)
 `app.SetCertificate(certFile string, keyFile string)` | Set certificate, use with `app.SetTLS(true)`
-`app.SetPublic(path string)` | Define path for use static files
+`app.SetPublic(path string)` | Define **absolute** path for use static files
 `app.Action(method string, path string, func TeenyCallback)` | Define a route (from HTTP path in URL) for execute a function, arrow function or anonymous function
 `app.Pattern(method string, path string, func TeenyPatternCallback)`,
 `app.HandlerCodes(codes []int, func TeenyStatusCallback)` | Catch http errors (like `ErrorDocument` or `error_page`) from ISPAI or if try access a route not defined (emits `404 Not Found`) or if try access a defined route with not defined http method (emits `405 Method Not Allowed`)
