@@ -3,7 +3,8 @@ package main
 import (
     "fmt"
     "net/http"
-    "github.com/inphinit/teenygo"
+    // "github.com/inphinit/teenygo"
+    ".."
 )
 
 func main() {
@@ -12,23 +13,25 @@ func main() {
 
     app.SetDebug(true)
 
-    app.SetPattern("example", `[A-Z]\d+`)
-
     app.SetPublic("C:/Users/new_g/Documents/GitHub/brcontainer/Teeny.projects/teeny.js/example/public")
 
     app.Action("GET", "/", func (response http.ResponseWriter, request *http.Request) {
         fmt.Fprintf(response, "Homepage")
     })
 
+    app.Action("GET", "/about", func (response http.ResponseWriter, request *http.Request) {
+        fmt.Fprintf(response, "About")
+    })
+
     app.Action("GET", "/foo/bar/", func (response http.ResponseWriter, request *http.Request) {
-        fmt.Fprintf(response, "Test for /foo/bar")
+        fmt.Fprintf(response, "Test for /foo/bar/")
     })
 
     app.Action("GET", "/bigfile", func (response http.ResponseWriter, request *http.Request) {
         http.ServeFile(response, request, "./file.rar")
     })
 
-    app.Pattern("GET", "/users/<id:alnum>", func (response http.ResponseWriter, request *http.Request, params map[string]string) {
+    app.Params("GET", "/users/<id:alnum>", func (response http.ResponseWriter, request *http.Request, params map[string]string) {
         fmt.Fprint(response, "Params:\n")
 
         for key, value := range params {
@@ -36,7 +39,7 @@ func main() {
         }
     })
 
-    app.Pattern("GET", "/users/<id:num>/<name:alnum>", func (response http.ResponseWriter, request *http.Request, params map[string]string) {
+    app.Params("GET", "/users/<id:num>/<name:alnum>", func (response http.ResponseWriter, request *http.Request, params map[string]string) {
         fmt.Fprint(response, "Params:\n")
 
         for key, value := range params {
@@ -45,16 +48,16 @@ func main() {
     })
 
     // Set custom pattern basead in Regex (write using string)
-    app.SetPattern("example", "[A-Z]\\d+");
+    app.SetPattern("example", "[A-Z]\\d+")
 
     // Using custom pattern for get param in route (access http://localhost:7000/custom/A1000)
-    app.Pattern("GET", "/custom/<myexample:example>", func (response http.ResponseWriter, request *http.Request, params map[string]string) {
+    app.Params("GET", "/custom/<myexample:example>", func (response http.ResponseWriter, request *http.Request, params map[string]string) {
         fmt.Fprint(response, "Custom Param:\n")
 
         for key, value := range params {
             fmt.Fprintf(response, "%s = %s\n", key, value)
         }
-    });
+    })
 
     var codes = []int {403, 404, 405, 500}
 

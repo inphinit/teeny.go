@@ -164,12 +164,12 @@ Method | Description
 `app.SetCertificate(certFile string, keyFile string)` | Set certificate, use with `app.SetTLS(true)`
 `app.SetPublic(path string)` | Define **absolute** path for use static files
 `app.Action(method string, path string, func TeenyCallback)` | Define a route (from HTTP path in URL) for execute a function, arrow function or anonymous function
-`app.Pattern(method string, path string, func TeenyPatternCallback)`,
+`app.Params(method string, path string, func TeenyPatternCallback)`,
 `app.HandlerCodes(codes []int, func TeenyStatusCallback)` | Catch http errors (like `ErrorDocument` or `error_page`) from ISPAI or if try access a route not defined (emits `404 Not Found`) or if try access a defined route with not defined http method (emits `405 Method Not Allowed`)
 `app.SetPattern(name string, regex string)` | Create a pattern for use in route params
 `app.Exec()` | Starts server
 
-## Patterns supported by param routes
+## Patterns supported by param routes (`app.Params()`)
 
 You can create your own patterns to use with the routes in "teenygo", but there are also ready-to-use patterns:
 
