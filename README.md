@@ -168,6 +168,7 @@ Method | Description
 `app.HandlerCodes(codes []int, func TeenyStatusCallback)` | Catch http errors (like `ErrorDocument` or `error_page`) from ISPAI or if try access a route not defined (emits `404 Not Found`) or if try access a defined route with not defined http method (emits `405 Method Not Allowed`)
 `app.SetPattern(name string, regex string)` | Create a pattern for use in route params
 `app.Exec()` | Starts server
+`app.CliMode()` | Starts server with support for configure with commands
 
 ## Patterns supported by param routes (`app.Params()`)
 
@@ -183,3 +184,47 @@ Pattern | Regex used | Description
 `nospace` | `\S+` | Matches routes with param using any character except spaces, tabs or NUL in route
 `uuid` | `[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}` | Matches routes with param using uuid format in route
 `version` | `\d+\.\d+(\.\d+(-[\da-zA-Z]+(\.[\da-zA-Z]+)*(\+[\da-zA-Z]+(\.[\da-zA-Z]+)*)?)?)?` | Matches routes with param using [`semver.org`](https://semver.org/) format in route
+
+## CLI mode
+
+For create a application with support for command line arguments you can create manualy using `os.Args` or using `app.CliMode()`, example:
+
+``` golang
+func main() {
+    //Default host and port
+    app := teeny.Serve("localhost", 7000)
+
+    app.Action("GET", "/", func (response http.ResponseWriter, request *http.Request) {
+        fmt.Fprint(response, "Homepage")
+    })
+
+    app.Action("GET", "/about", func (response http.ResponseWriter, request *http.Request) {
+        fmt.Fprint(response, "About page")
+    })
+
+    app.HandlerCodes([]int {403, 404, 405}, func (response http.ResponseWriter, request *http.Request, code int) {
+        fmt.Fprintf(response, "Error: %d", code)
+    })
+
+    app.CliMode()
+}
+```
+
+Usage example:
+
+```
+program.exe --debug --host 0.0.0.0 --port 8080 --public "/home/foo/bar/assets"
+```
+
+### CLI mode arguments
+
+Argument | Example | Description
+--- | --- | ---
+`--tls` | `program --tls` | Enable TLS mode in your program (use with `--cert` and `--key` if it is not pre-configured)
+`--debug` | `program --debug` | Enable debug mode in your program
+`--fcgi` | `program --fcgi` | Enable Fast-CGI mode in your program
+`--cert` | `program --cert /home/foo/cert.pem` | Define certificate file (use with `--tls` if it is not pre-configured)
+`--key` | `program --key /home/foo/key.pem` | Define key file (use with `--tls` if it is not pre-configured)
+`--public` | `program --public /home/foo/assets` | Define folder for access static files
+`--host` | `program --host 0.0.0.0` | Define host address
+`--port` | `program --port 9000` | Define port addres

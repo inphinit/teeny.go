@@ -7,6 +7,7 @@ import (
     "net/http/fcgi"
     "os"
     "regexp"
+    "strconv"
     "strings"
     "time"
 )
@@ -70,6 +71,16 @@ func (e *TeenyServe) SetDebug(enable bool) {
     e.debug = enable
 }
 
+func (e *TeenyServe) SetHost(host string) {
+
+    e.host = host
+}
+
+func (e *TeenyServe) SetPort(port int) {
+
+    e.port = port
+}
+
 func (e *TeenyServe) SetFcgi(enable bool) {
 
     e.fcgi = enable
@@ -80,9 +91,13 @@ func (e *TeenyServe) SetTLS(enable bool) {
     e.tls = enable
 }
 
-func (e *TeenyServe) SetCertificate(certFile string, keyFile string) {
+func (e *TeenyServe) SetCertificate(certFile string) {
 
     e.certFile = certFile
+}
+
+func (e *TeenyServe) SetKey(keyFile string) {
+
     e.keyFile = keyFile
 }
 
@@ -156,6 +171,68 @@ func (e *TeenyServe) Exec() {
     } else {
         e.panic(http.ListenAndServe(address, nil))
     }
+}
+
+func (e *TeenyServe) CliMode() {
+
+    fmt.Print("teste\n")
+
+    var ignoreNext = false
+
+    for index, arg := range os.Args {
+        if ignoreNext || index == 0 {
+            ignoreNext = false
+            continue
+        }
+
+        switch arg {
+
+        case "--tls":
+            e.SetTLS(true)
+
+        case "--debug":
+            e.SetDebug(true)
+
+        case "--fcgi":
+            e.SetFcgi(true)
+
+        case "--cert":
+            ignoreNext = true
+            e.SetCertificate(os.Args[index + 1])
+
+        case "--key":
+            ignoreNext = true
+            e.SetKey(os.Args[index + 1])
+
+        case "--public":
+            ignoreNext = true
+            e.SetPublic(os.Args[index + 1])
+
+        case "--host":
+            ignoreNext = true
+            e.SetHost(os.Args[index + 1])
+
+        case "--port":
+            ignoreNext = true
+
+            port, err := strconv.Atoi(os.Args[index + 1])
+            if err != nil {
+                panic(err)
+            }
+
+            e.SetPort(port)
+
+        default:
+            panic(fmt.Sprintf("Invalid argument %v", arg))
+
+        }
+    }
+
+    if ignoreNext {
+        panic("Missing an argument")
+    }
+
+    e.Exec()
 }
 
 func (e *TeenyServe) handler(response http.ResponseWriter, request *http.Request) {

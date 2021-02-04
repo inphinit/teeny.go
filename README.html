@@ -1238,6 +1238,10 @@ func main() {
 <td><code>app.Exec()</code></td>
 <td>Starts server</td>
 </tr>
+<tr>
+<td><code>app.CliMode()</code></td>
+<td>Starts server with support for configure with commands</td>
+</tr>
 </tbody>
 </table>
 <h2 id="patterns-supported-by-param-routes-appparams">Patterns supported by param routes (<code>app.Params()</code>)<a class="headerlink" href="#patterns-supported-by-param-routes-appparams" title="Permanent link"></a></h2>
@@ -1290,6 +1294,84 @@ func main() {
 <td><code>version</code></td>
 <td><code>\d+\.\d+(\.\d+(-[\da-zA-Z]+(\.[\da-zA-Z]+)*(\+[\da-zA-Z]+(\.[\da-zA-Z]+)*)?)?)?</code></td>
 <td>Matches routes with param using <a href="https://semver.org/"><code>semver.org</code></a> format in route</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cli-mode">CLI mode<a class="headerlink" href="#cli-mode" title="Permanent link"></a></h2>
+<p>For create a application with support for command line arguments you can create manualy using <code>os.Args</code> or using <code>app.CliMode()</code>, example:</p>
+<div class="codehilite"><pre>func main() {
+    //Default host and port
+    app := teeny.Serve(&quot;localhost&quot;, 7000)
+
+    app.Action(&quot;GET&quot;, &quot;/&quot;, func (response http.ResponseWriter, request *http.Request) {
+        fmt.Fprint(response, &quot;Homepage&quot;)
+    })
+
+    app.Action(&quot;GET&quot;, &quot;/about&quot;, func (response http.ResponseWriter, request *http.Request) {
+        fmt.Fprint(response, &quot;About page&quot;)
+    })
+
+    app.HandlerCodes([]int {403, 404, 405}, func (response http.ResponseWriter, request *http.Request, code int) {
+        fmt.Fprintf(response, &quot;Error: %d&quot;, code)
+    })
+
+    app.CliMode()
+}
+</pre></div>
+
+<p>Usage example:</p>
+<div class="codehilite"><pre>program.exe --debug --host 0.0.0.0 --port 8080 --public &quot;/home/foo/bar/assets&quot;
+</pre></div>
+
+<h3 id="cli-mode-arguments">CLI mode arguments<a class="headerlink" href="#cli-mode-arguments" title="Permanent link"></a></h3>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--tls</code></td>
+<td><code>program --tls</code></td>
+<td>Enable TLS mode in your program (use with <code>--cert</code> and <code>--key</code> if it is not pre-configured)</td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td><code>program --debug</code></td>
+<td>Enable debug mode in your program</td>
+</tr>
+<tr>
+<td><code>--fcgi</code></td>
+<td><code>program --fcgi</code></td>
+<td>Enable Fast-CGI mode in your program</td>
+</tr>
+<tr>
+<td><code>--cert</code></td>
+<td><code>program --cert /home/foo/cert.pem</code></td>
+<td>Define certificate file (use with <code>--tls</code> if it is not pre-configured)</td>
+</tr>
+<tr>
+<td><code>--key</code></td>
+<td><code>program --key /home/foo/key.pem</code></td>
+<td>Define key file (use with <code>--tls</code> if it is not pre-configured)</td>
+</tr>
+<tr>
+<td><code>--public</code></td>
+<td><code>program --public /home/foo/assets</code></td>
+<td>Define folder for access static files</td>
+</tr>
+<tr>
+<td><code>--host</code></td>
+<td><code>program --host 0.0.0.0</code></td>
+<td>Define host address</td>
+</tr>
+<tr>
+<td><code>--port</code></td>
+<td><code>program --port 9000</code></td>
+<td>Define port addres</td>
 </tr>
 </tbody>
 </table></article></body></html>
