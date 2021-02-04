@@ -70,7 +70,9 @@ func main() {
 
     app.SetTLS(true)
 
-    app.SetCertificate("/home/foo/cert.pem", "/home/foo/key.pem")
+    app.SetCertificate("/home/foo/cert.pem")
+
+    app.SetKey("/home/foo/key.pem")
 
     ...
 
@@ -161,7 +163,8 @@ Method | Description
 `app.SetDebug(enable bool)` | Define if debug is on (`true`) or off (`false`), by default is `false`
 `app.SetFcgi(enable bool)` | Enable Fast-CGI
 `app.SetTLS(enable bool)` | Enable TLS for server (not Fast-CGI)
-`app.SetCertificate(certFile string, keyFile string)` | Set certificate, use with `app.SetTLS(true)`
+`app.SetCertificate(certFile string)` | Set certificate, use with `app.SetTLS(true)`
+`app.SetKey(keyFile string)` | Set certificate, use with `app.SetTLS(true)`
 `app.SetPublic(path string)` | Define **absolute** path for use static files
 `app.Action(method string, path string, func TeenyCallback)` | Define a route (from HTTP path in URL) for execute a function, arrow function or anonymous function
 `app.Params(method string, path string, func TeenyPatternCallback)`,

@@ -1112,7 +1112,9 @@ func main() {
 
     app.SetTLS(true)
 
-    app.SetCertificate(&quot;/home/foo/cert.pem&quot;, &quot;/home/foo/key.pem&quot;)
+    app.SetCertificate(&quot;/home/foo/cert.pem&quot;)
+
+    app.SetKey(&quot;/home/foo/key.pem&quot;)
 
     ...
 
@@ -1211,7 +1213,11 @@ func main() {
 <td>Enable TLS for server (not Fast-CGI)</td>
 </tr>
 <tr>
-<td><code>app.SetCertificate(certFile string, keyFile string)</code></td>
+<td><code>app.SetCertificate(certFile string)</code></td>
+<td>Set certificate, use with <code>app.SetTLS(true)</code></td>
+</tr>
+<tr>
+<td><code>app.SetKey(keyFile string)</code></td>
 <td>Set certificate, use with <code>app.SetTLS(true)</code></td>
 </tr>
 <tr>
