@@ -1,3 +1,3 @@
-module github.com/inphinit/teenygo
+module github.com/inphinit/teeny.go
 
-go 1.2
+go 1.15
