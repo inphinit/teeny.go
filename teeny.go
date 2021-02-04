@@ -184,15 +184,23 @@ func (e *TeenyServe) CliMode() {
         }
 
         switch arg {
-
         case "--tls":
             e.SetTLS(true)
+
+        case "--no-tls":
+            e.SetTLS(false)
 
         case "--debug":
             e.SetDebug(true)
 
+        case "--no-debug":
+            e.SetDebug(false)
+
         case "--fcgi":
             e.SetFcgi(true)
+
+        case "--no-fcgi":
+            e.SetFcgi(false)
 
         case "--cert":
             ignoreNext = true

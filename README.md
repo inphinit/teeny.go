@@ -221,8 +221,11 @@ program.exe --debug --host 0.0.0.0 --port 8080 --public "/home/foo/bar/assets"
 Argument | Example | Description
 --- | --- | ---
 `--tls` | `program --tls` | Enable TLS mode in your program (use with `--cert` and `--key` if it is not pre-configured)
+`--tls` | `program --no-tls` | Disable TLS (if in the initial configuration of the script it was enabled)
 `--debug` | `program --debug` | Enable debug mode in your program
+`--debug` | `program --no-debug` | Disable debug (if in the initial configuration of the script it was enabled)
 `--fcgi` | `program --fcgi` | Enable Fast-CGI mode in your program
+`--fcgi` | `program --no-fcgi` | Disable Fast-CGI (if in the initial configuration of the script it was enabled)
 `--cert` | `program --cert /home/foo/cert.pem` | Define certificate file (use with `--tls` if it is not pre-configured)
 `--key` | `program --key /home/foo/key.pem` | Define key file (use with `--tls` if it is not pre-configured)
 `--public` | `program --public /home/foo/assets` | Define folder for access static files
