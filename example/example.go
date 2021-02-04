@@ -3,8 +3,7 @@ package main
 import (
     "fmt"
     "net/http"
-    // "github.com/inphinit/teenygo"
-    ".."
+    "github.com/inphinit/teeny.go"
 )
 
 func main() {
@@ -13,7 +12,8 @@ func main() {
 
     app.SetDebug(true)
 
-    app.SetPublic("C:/Users/new_g/Documents/GitHub/brcontainer/Teeny.projects/teeny.js/example/public")
+    // Asset static files
+    app.SetPublic("/foo/bar/baz/public")
 
     app.Action("GET", "/", func (response http.ResponseWriter, request *http.Request) {
         fmt.Fprintf(response, "Homepage")

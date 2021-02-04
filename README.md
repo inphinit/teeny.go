@@ -7,7 +7,7 @@ The main objective of this project is to be light, simple, easy to learn, to ser
 For install use:
 
 ```
-go get -u github.com/inphinit/teenygo
+go get -u github.com/inphinit/teeny.go
 ```
 
 Create a file any name with extesion `.go`, example: `test.go`
@@ -20,11 +20,11 @@ package main
 import (
     "fmt"
     "net/http"
-    "github.com/inphinit/teenygo"
+    "github.com/inphinit/teeny.go"
 )
 
 func main() {
-    app := teenygo.Serve("localhost", 7000)
+    app := teeny.Serve("localhost", 7000)
 
     app.SetPublic("/home/user/Documents/")
 
@@ -62,11 +62,11 @@ package main
 import (
     "fmt"
     "net/http"
-    "github.com/inphinit/teenygo"
+    "github.com/inphinit/teeny"
 )
 
 func main() {
-    app := teenygo.Serve("localhost", 7000)
+    app := teeny.Serve("localhost", 7000)
 
     app.SetTLS(true)
 
@@ -80,7 +80,7 @@ func main() {
 
 ## Using Fast-CGI:
 
-For use teenygo with Apache or Ngnix, enable Fast-CGI: 
+For use teeny with Apache or Ngnix, enable Fast-CGI: 
 
 ``` golang
 package main
@@ -88,11 +88,11 @@ package main
 import (
     "fmt"
     "net/http"
-    "github.com/inphinit/teenygo"
+    "github.com/inphinit/teeny"
 )
 
 func main() {
-    app := teenygo.Serve("localhost", 7000)
+    app := teeny.Serve("localhost", 7000)
 
     app.SetFcgi(true)
 
@@ -106,7 +106,7 @@ func main() {
 
 ``` golang
 func main() {
-    app := teenygo.Serve("localhost", 7000)
+    app := teeny.Serve("localhost", 7000)
 
     ...
     
@@ -124,7 +124,7 @@ Different handlers:
 
 ``` golang
 func main() {
-    app := teenygo.Serve("localhost", 7000)
+    app := teeny.Serve("localhost", 7000)
 
     ...
 
@@ -146,18 +146,18 @@ Set absolute path
 
 ``` golang
 func main() {
-    app := teenygo.Serve("localhost", 7000)
+    app := teeny.Serve("localhost", 7000)
 
     app.SetPublic("/home/foo/bar")
 
     ...
 ```
 
-## Methods for config teenygo
+## Methods for config teeny
 
 Method | Description
 --- | ------
-`app := teenygo.Serve(host string, port int)` | configure routes host and port
+`app := teeny.Serve(host string, port int)` | configure routes host and port
 `app.SetDebug(enable bool)` | Define if debug is on (`true`) or off (`false`), by default is `false`
 `app.SetFcgi(enable bool)` | Enable Fast-CGI
 `app.SetTLS(enable bool)` | Enable TLS for server (not Fast-CGI)
@@ -171,7 +171,7 @@ Method | Description
 
 ## Patterns supported by param routes (`app.Params()`)
 
-You can create your own patterns to use with the routes in "teenygo", but there are also ready-to-use patterns:
+You can create your own patterns to use with the routes in "teeny", but there are also ready-to-use patterns:
 
 Pattern | Regex used | Description
 --- | --- | ---

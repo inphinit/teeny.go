@@ -1059,7 +1059,7 @@ body .markdown-body
 <p>The main objective of this project is to be light, simple, easy to learn, to serve other projects that need a route system to use together with other libraries and mainly to explore the native resources from language and engine (Go).</p>
 <h2 id="configure-your-project">Configure your project<a class="headerlink" href="#configure-your-project" title="Permanent link"></a></h2>
 <p>For install use:</p>
-<div class="codehilite"><pre>go get -u github.com/inphinit/teenygo
+<div class="codehilite"><pre>go get -u github.com/inphinit/teeny.go
 </pre></div>
 
 <p>Create a file any name with extesion <code>.go</code>, example: <code>test.go</code></p>
@@ -1069,11 +1069,11 @@ body .markdown-body
 import (
     &quot;fmt&quot;
     &quot;net/http&quot;
-    &quot;github.com/inphinit/teenygo&quot;
+    &quot;github.com/inphinit/teeny.go&quot;
 )
 
 func main() {
-    app := teenygo.Serve(&quot;localhost&quot;, 7000)
+    app := teeny.Serve(&quot;localhost&quot;, 7000)
 
     app.SetPublic(&quot;/home/user/Documents/&quot;)
 
@@ -1104,11 +1104,11 @@ func main() {
 import (
     &quot;fmt&quot;
     &quot;net/http&quot;
-    &quot;github.com/inphinit/teenygo&quot;
+    &quot;github.com/inphinit/teeny&quot;
 )
 
 func main() {
-    app := teenygo.Serve(&quot;localhost&quot;, 7000)
+    app := teeny.Serve(&quot;localhost&quot;, 7000)
 
     app.SetTLS(true)
 
@@ -1121,17 +1121,17 @@ func main() {
 </pre></div>
 
 <h2 id="using-fast-cgi">Using Fast-CGI:<a class="headerlink" href="#using-fast-cgi" title="Permanent link"></a></h2>
-<p>For use teenygo with Apache or Ngnix, enable Fast-CGI: </p>
+<p>For use teeny with Apache or Ngnix, enable Fast-CGI: </p>
 <div class="codehilite"><pre>package main
 
 import (
     &quot;fmt&quot;
     &quot;net/http&quot;
-    &quot;github.com/inphinit/teenygo&quot;
+    &quot;github.com/inphinit/teeny&quot;
 )
 
 func main() {
-    app := teenygo.Serve(&quot;localhost&quot;, 7000)
+    app := teeny.Serve(&quot;localhost&quot;, 7000)
 
     app.SetFcgi(true)
 
@@ -1143,7 +1143,7 @@ func main() {
 
 <h2 id="handling-errors">Handling errors<a class="headerlink" href="#handling-errors" title="Permanent link"></a></h2>
 <div class="codehilite"><pre>func main() {
-    app := teenygo.Serve(&quot;localhost&quot;, 7000)
+    app := teeny.Serve(&quot;localhost&quot;, 7000)
 
     ...
 
@@ -1159,7 +1159,7 @@ func main() {
 
 <p>Different handlers:</p>
 <div class="codehilite"><pre>func main() {
-    app := teenygo.Serve(&quot;localhost&quot;, 7000)
+    app := teeny.Serve(&quot;localhost&quot;, 7000)
 
     ...
 
@@ -1178,14 +1178,14 @@ func main() {
 <h2 id="static-files">Static files<a class="headerlink" href="#static-files" title="Permanent link"></a></h2>
 <p>Set absolute path</p>
 <div class="codehilite"><pre>func main() {
-    app := teenygo.Serve(&quot;localhost&quot;, 7000)
+    app := teeny.Serve(&quot;localhost&quot;, 7000)
 
     app.SetPublic(&quot;/home/foo/bar&quot;)
 
     ...
 </pre></div>
 
-<h2 id="methods-for-config-teenygo">Methods for config teenygo<a class="headerlink" href="#methods-for-config-teenygo" title="Permanent link"></a></h2>
+<h2 id="methods-for-config-teeny">Methods for config teeny<a class="headerlink" href="#methods-for-config-teeny" title="Permanent link"></a></h2>
 <table>
 <thead>
 <tr>
@@ -1195,7 +1195,7 @@ func main() {
 </thead>
 <tbody>
 <tr>
-<td><code>app := teenygo.Serve(host string, port int)</code></td>
+<td><code>app := teeny.Serve(host string, port int)</code></td>
 <td>configure routes host and port</td>
 </tr>
 <tr>
@@ -1241,7 +1241,7 @@ func main() {
 </tbody>
 </table>
 <h2 id="patterns-supported-by-param-routes-appparams">Patterns supported by param routes (<code>app.Params()</code>)<a class="headerlink" href="#patterns-supported-by-param-routes-appparams" title="Permanent link"></a></h2>
-<p>You can create your own patterns to use with the routes in &ldquo;teenygo&rdquo;, but there are also ready-to-use patterns:</p>
+<p>You can create your own patterns to use with the routes in &ldquo;teeny&rdquo;, but there are also ready-to-use patterns:</p>
 <table>
 <thead>
 <tr>
