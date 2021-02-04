@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-    app := teenygo.Serve("localhost", 7000)
+    app := teeny.Serve("localhost", 7000)
 
     app.SetDebug(true)
 
