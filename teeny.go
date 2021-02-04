@@ -175,8 +175,6 @@ func (e *TeenyServe) Exec() {
 
 func (e *TeenyServe) CliMode() {
 
-    fmt.Print("teste\n")
-
     var ignoreNext = false
 
     for index, arg := range os.Args {
