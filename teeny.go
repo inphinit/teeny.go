@@ -245,7 +245,7 @@ func (e *TeenyServe) handler(response http.ResponseWriter, request *http.Request
 
     var path = request.URL.Path
     var method = request.Method
-    var code = 200
+    var code = http.StatusOK
 
     if e.debug {
         fmt.Printf("[%s] %s %s %s\n", time.Now().Format(time.RFC1123), method, path, request.Proto)
@@ -257,21 +257,23 @@ func (e *TeenyServe) handler(response http.ResponseWriter, request *http.Request
         if code == 0 {
             return
         }
-    } else {
-        code = 200
     }
 
     if methods, ok := e.routes[path]; ok {
         if callback, ok := methods[method]; ok {
             callback(response, request)
+        } else if callback, ok := methods["ANY"]; ok {
+            callback(response, request)
         } else {
             code = http.StatusMethodNotAllowed
         }
-    } else if !e.hasParams || !e.findParams(response, request, method, path) {
+    } else if e.hasParams {
+        code = e.findParams(response, request, method, path)
+    } else {
         code = http.StatusNotFound
     }
 
-    if code != 200 {
+    if code != http.StatusOK {
         response.WriteHeader(code)
 
         if callback, ok := e.codes[code]; ok {
@@ -308,16 +310,10 @@ func (e *TeenyServe) findParams(
     request *http.Request,
     method string,
     pathinfo string,
-) bool {
+) int {
 
     for path, methods := range e.pRoutes {
         if strings.Index(path, "<") != -1 {
-            callback := methods[method]
-
-            if callback == nil {
-                continue
-            }
-
             path = e.scapesRE.ReplaceAllString(path, `\/`)
             path = e.patternRE.ReplaceAllString(path, "(?P<$1><$3>)")
             path = e.signsRE.ReplaceAllString(path, ".*?)")
@@ -338,14 +334,22 @@ func (e *TeenyServe) findParams(
                     }
                 }
 
-                callback(response, request, params)
+                if callback, ok := methods[method]; ok {
+                    callback(response, request, params)
 
-                return true
+                    return http.StatusOK
+                } else if callback, ok := methods["ANY"]; ok {
+                    callback(response, request, params)
+
+                    return http.StatusOK
+                } else {
+                    return http.StatusMethodNotAllowed
+                }
             }
         }
     }
 
-    return false
+    return http.StatusNotFound
 }
 
 func (e *TeenyServe) panic(err error) {
