@@ -134,7 +134,11 @@ func (e *TeenyServe) Params(method string, path string, callback TeenyPatternCal
         e.pRoutes[path] = make(map[string]TeenyPatternCallback)
     }
 
-    if strings.Index(path, "<") != -1 && callback != nil  {
+    if strings.Index(path, "<") == -1 {
+        panic(fmt.Sprintf("Invalid parameterized route %v", path))
+    }
+
+    if callback != nil  {
         e.hasParams = true;
     }
 
@@ -313,38 +317,36 @@ func (e *TeenyServe) findParams(
 ) int {
 
     for path, methods := range e.pRoutes {
-        if strings.Index(path, "<") != -1 {
-            path = e.scapesRE.ReplaceAllString(path, `\/`)
-            path = e.patternRE.ReplaceAllString(path, "(?P<$1><$3>)")
-            path = e.signsRE.ReplaceAllString(path, ".*?)")
+        path = e.scapesRE.ReplaceAllString(path, `\/`)
+        path = e.patternRE.ReplaceAllString(path, "(?P<$1><$3>)")
+        path = e.signsRE.ReplaceAllString(path, ".*?)")
 
-            for pattern, replace := range e.patterns {
-                path = regexp.MustCompile("<" + pattern +  ">").ReplaceAllString(path, replace)
+        for pattern, replace := range e.patterns {
+            path = regexp.MustCompile("<" + pattern +  ">").ReplaceAllString(path, replace)
+        }
+
+        re := regexp.MustCompile("^" + path +  "$")
+        match := re.FindStringSubmatch(pathinfo)
+
+        if len(match) != 0 {
+            var params = make(map[string]string)
+
+            for index, name := range re.SubexpNames() {
+                if index > 0 {
+                    params[name] = match[index]
+                }
             }
 
-            re := regexp.MustCompile("^" + path +  "$")
-            match := re.FindStringSubmatch(pathinfo)
+            if callback, ok := methods[method]; ok {
+                callback(response, request, params)
 
-            if len(match) != 0 {
-                var params = make(map[string]string)
+                return http.StatusOK
+            } else if callback, ok := methods["ANY"]; ok {
+                callback(response, request, params)
 
-                for index, name := range re.SubexpNames() {
-                    if index > 0 {
-                        params[name] = match[index]
-                    }
-                }
-
-                if callback, ok := methods[method]; ok {
-                    callback(response, request, params)
-
-                    return http.StatusOK
-                } else if callback, ok := methods["ANY"]; ok {
-                    callback(response, request, params)
-
-                    return http.StatusOK
-                } else {
-                    return http.StatusMethodNotAllowed
-                }
+                return http.StatusOK
+            } else {
+                return http.StatusMethodNotAllowed
             }
         }
     }
