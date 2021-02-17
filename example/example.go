@@ -3,7 +3,8 @@ package main
 import (
     "fmt"
     "net/http"
-    "github.com/inphinit/teeny.go"
+    // "github.com/inphinit/teeny.go"
+    ".."
 )
 
 func main() {
@@ -39,7 +40,7 @@ func main() {
         }
     })
 
-    app.Params("GET", "/users/<id:num>/<name:alnum>", func (response http.ResponseWriter, request *http.Request, params map[string]string) {
+    app.Params("GET", "/blog/<name>-<id:num>", func (response http.ResponseWriter, request *http.Request, params map[string]string) {
         fmt.Fprint(response, "Params:\n")
 
         for key, value := range params {
