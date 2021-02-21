@@ -116,7 +116,7 @@ func (e *TeenyServe) SetPattern(pattern string, regex string) {
         patternKeys = append(patternKeys, key)
     }
 
-    e.patternRE = regexp.MustCompile(`[<](.*?)(\:(` + strings.Join(patternKeys, "|") + `)|)[>]`)
+    e.patternRE = regexp.MustCompile(`[<]([A-Za-z]\w+)(\:(` + strings.Join(patternKeys, "|") + `)|)[>]`)
 }
 
 func (e *TeenyServe) Action(method string, path string, callback TeenyCallback) {
@@ -130,12 +130,14 @@ func (e *TeenyServe) Action(method string, path string, callback TeenyCallback) 
 
 func (e *TeenyServe) Params(method string, path string, callback TeenyPatternCallback) {
 
-    if _, ok := e.pRoutes[path]; !ok {
-        e.pRoutes[path] = make(map[string]TeenyPatternCallback)
-    }
+    path = regexp.QuoteMeta(path)
 
     if strings.Index(path, "<") == -1 {
         panic(fmt.Sprintf("Invalid parameterized route %v", path))
+    }
+
+    if _, ok := e.pRoutes[path]; !ok {
+        e.pRoutes[path] = make(map[string]TeenyPatternCallback)
     }
 
     if callback != nil  {

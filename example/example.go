@@ -49,7 +49,7 @@ func main() {
     })
 
     // Set custom pattern basead in Regex (write using string)
-    app.SetPattern("example", "[A-Z]\\d+")
+    app.SetPattern("example", `[A-Z]\d+`)
 
     // Using custom pattern for get param in route (access http://localhost:7000/custom/A1000)
     app.Params("GET", "/custom/<myexample:example>", func (response http.ResponseWriter, request *http.Request, params map[string]string) {
