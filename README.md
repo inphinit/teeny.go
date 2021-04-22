@@ -77,7 +77,7 @@ package main
 import (
     "fmt"
     "net/http"
-    "github.com/inphinit/teeny"
+    "github.com/inphinit/teeny.go"
 )
 
 func main() {
