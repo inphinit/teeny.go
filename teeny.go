@@ -55,7 +55,7 @@ func Serve(host string, port int) TeenyServe {
             "decimal": `\d+\.\d+`,
             "num": `\d+`,
             "noslash": `[^\/]+`,
-            "nospace": `\S+`,
+            "nospace": `[^/\s]+`,
             "uuid": `[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}`,
             "version": `\d+\.\d+(\.\d+(-[\da-zA-Z]+(\.[\da-zA-Z]+)*(\+[\da-zA-Z]+(\.[\da-zA-Z]+)*)?)?)?`,
         },
@@ -321,7 +321,7 @@ func (e *TeenyServe) findParams(
     for path, methods := range e.pRoutes {
         path = e.scapesRE.ReplaceAllString(path, `\/`)
         path = e.patternRE.ReplaceAllString(path, "(?P<$1><$3>)")
-        path = e.signsRE.ReplaceAllString(path, ".*?)")
+        path = e.signsRE.ReplaceAllString(path, "[^/]+)")
 
         for pattern, replace := range e.patterns {
             path = regexp.MustCompile("<" + pattern +  ">").ReplaceAllString(path, replace)
